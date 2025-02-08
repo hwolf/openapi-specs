@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>OpenAPI Specs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="module" src="rapidoc-min.js"></script>
+</head>
+<body>
+<rapi-doc id="doc"
+          spec-url="https://rapidocweb.com/specs/petstore_extended.yaml"
+          render-style="focused"
+          theme="light"
+          show-header="false"
+          allow-spec-url-load="false"
+          allow-spec-file-load="false"
+          allow-spec-file-download="true"
+          allow-advanced-search="false"
+          info-description-headings-in-navbar="true"
+          show-curl-before-try="true"
+          oauth-receiver="oauth-receiver.html">
+    <div style="margin:0; padding:16px 36px; background-color:tomato; color:#fff;">
+        <label for="specs"> OpenAPI Specs</label>
+        <select id="specs">
+        </select>
+    </div>
+</rapi-doc>
+
+<script>
+    document.addEventListener('readystatechange', () => {
+        let docEl = document.getElementById("doc");
+        if (!docEl.loadSpec) {
+            return;
+        }
+
+        let specs = document.getElementById("specs");
+
+        function addSpec(k, v) {
+            let opt =  document.createElement("option");
+            opt.value = v;
+            opt.innerHTML = k;
+            specs.appendChild(opt)
+        }
+
+        fetch("specs.json")
+            .then((response) => response.json())
+            .then((data) => Object.entries(data).forEach(([k, v]) => addSpec(k, v)))
+            .catch((error) => console.error("Error loading specs", error));
+
+        specs.addEventListener("change", (ev) => docEl.loadSpec(ev.target.value));
+        docEl.loadSpec("https://rapidocweb.com/specs/petstore_extended.yaml");
+    })
+</script>
+
+</body>
+</html>

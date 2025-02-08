@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build": "npm install && mkdir -p dist && cp -v node_modules/rapidoc/dist/rapidoc-min.js dist && cp -v src/* dist",
+    "clean": "rm -rv clean"
+  },
+  "dependencies": {
+    "rapidoc": "9.3.8"
+  }
+}
